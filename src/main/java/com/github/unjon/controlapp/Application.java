@@ -1,6 +1,6 @@
 package com.github.unjon.controlapp;
 
-import com.github.unjon.webserver.EmbeddedJettyWithVaadin;
+import com.github.unjon.webserver.EmbeddedJettyScalaWithVaadin;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
@@ -23,10 +23,7 @@ public class Application extends com.vaadin.Application {
 
         com.github.unjon.MyRepository.inc();
 
-
-         main.addComponent(new ImmediateUpload());
-
-
+        main.addComponent(new ImmediateUpload());
 
         Button b = new Button("Eteindre Cozy");
 
@@ -36,7 +33,7 @@ public class Application extends com.vaadin.Application {
 
             @Override
             public void buttonClick(Button.ClickEvent clickEvent) {
-                EmbeddedJettyWithVaadin.stop();
+                EmbeddedJettyScalaWithVaadin.stop();
             }
         });
     }

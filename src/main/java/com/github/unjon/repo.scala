@@ -18,7 +18,7 @@ object MyRepository {
     i = i + 1
   }
 
-  def value() : Int = i
+  def value(): Int = i
 
 }
 

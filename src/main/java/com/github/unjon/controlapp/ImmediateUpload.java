@@ -2,7 +2,6 @@ package com.github.unjon.controlapp;
 
 import java.io.*;
 
-import com.github.unjon.webserver.EmbeddedJettyWithVaadin;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -17,7 +16,9 @@ import com.vaadin.ui.Upload.StartedEvent;
 import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.VerticalLayout;
 
-@SuppressWarnings("serial")
+import static akka.dispatch.Futures.future;
+
+
 public class ImmediateUpload extends VerticalLayout {
 
     private Label status = new Label("Please select a file to upload");
@@ -91,7 +92,8 @@ public class ImmediateUpload extends VerticalLayout {
                 status.setValue("Uploading file \"" + event.getFilename()
                         + "\" succeeded");
 
-                EmbeddedJettyWithVaadin.deploy(receiver.dest, 9999);
+
+                ScalaUtilsUpload.deploy(receiver.dest, 9999);
 
 
             }
@@ -122,34 +124,33 @@ public class ImmediateUpload extends VerticalLayout {
         private String mtype;
         private boolean sleep;
         private int total = 0;
-        private File dest =    new File("todeploy.war");
+        private File dest = new File("todeploy.war");
 
         public OutputStream receiveUpload(String filename, String mimetype) {
             fileName = filename;
             mtype = mimetype;
-            
-            
+
 
             try {
                 return new FileOutputStream(dest);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
-             /*
-            return new OutputStream() {
-                @Override
-                public void write(int b) throws IOException {
-                    total++;
-                    if (sleep && total % 10000 == 0) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            };  */
+            /*
+          return new OutputStream() {
+              @Override
+              public void write(int b) throws IOException {
+                  total++;
+                  if (sleep && total % 10000 == 0) {
+                      try {
+                          Thread.sleep(1000);
+                      } catch (InterruptedException e) {
+                          // TODO Auto-generated catch block
+                          e.printStackTrace();
+                      }
+                  }
+              }
+          };  */
 
             return null;
         }
@@ -165,8 +166,10 @@ public class ImmediateUpload extends VerticalLayout {
         public void setSlow(boolean value) {
             sleep = value;
         }
-        
-        public File getDest() {return dest;}
+
+        public File getDest() {
+            return dest;
+        }
 
     }
 

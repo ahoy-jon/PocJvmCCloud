@@ -15,9 +15,7 @@ object EmbeddedJettyScalaWithVaadin extends App {
   private final val WEBAPP_CLASS_NAME: String = classOf[Application].getName
   private var server: Server = null
 
-
   val myDeployActorRef = Actor.actorOf[DeployActor] start
-
 
   server = new Server(LISTEN_PORT)
   var context: ServletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS)
@@ -46,20 +44,18 @@ object EmbeddedJettyScalaWithVaadin extends App {
 }
 
 
-case class DeployOrder(file: File)
+case class DeployOrder(war : File)
 
 class DeployActor extends Actor {
-
-
   var availablePortMap = Map[Int, Boolean]()
 
   (9900 to 9910).map(port => availablePortMap = availablePortMap + (port -> true))
 
   def receive = {
 
-    case DeployOrder(file) => {
+    case DeployOrder(war) => {
       val (port, available) = availablePortMap.filter(t => t._2).head
-      this.deploy(file, port)
+      this.deploy(war, port)
       availablePortMap = availablePortMap + (port -> false)
     }
 

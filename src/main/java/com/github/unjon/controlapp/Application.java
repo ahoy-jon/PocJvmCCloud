@@ -21,8 +21,6 @@ public class Application extends com.vaadin.Application {
         setMainWindow(main);
         main.addComponent(new Label("Upload d'un nouveau service"));
 
-        com.github.unjon.MyRepository.inc();
-
         main.addComponent(new ImmediateUpload());
 
         Button b = new Button("Eteindre Cozy");

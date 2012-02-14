@@ -42,7 +42,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.github.un-jon.webserver.EmbeddedJettyWithVaadin</mainClass>
+                            <mainClass>com.github.unjon.webserver.EmbeddedJettyScalaWithVaadin</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

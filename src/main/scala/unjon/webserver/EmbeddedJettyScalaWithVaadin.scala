@@ -6,8 +6,6 @@ import org.eclipse.jetty.servlet.ServletContextHandler
 import org.eclipse.jetty.servlet.ServletHolder
 import org.eclipse.jetty.webapp._
 import java.io.File
-import akka.actor.Actor
-import akka.dispatch.Future
 
 object EmbeddedJettyScalaWithVaadin extends App {
   private final val LISTEN_HOST: String = "localhost"
@@ -15,7 +13,6 @@ object EmbeddedJettyScalaWithVaadin extends App {
   private final val WEBAPP_CLASS_NAME: String = classOf[Application].getName
   private var server: Server = null
 
-  val myDeployActorRef = Actor.actorOf[DeployActor] start
 
   server = new Server(LISTEN_PORT)
   var context: ServletContextHandler = new ServletContextHandler(ServletContextHandler.SESSIONS)
@@ -46,23 +43,27 @@ object EmbeddedJettyScalaWithVaadin extends App {
 
 case class DeployOrder(war : File)
 
-class DeployActor extends Actor {
-  var availablePortMap = Map[Int, Boolean]()
+object DeployActor {
+
+  private var availablePortMap = Map[Int, Boolean]()
 
   (9900 to 9910).map(port => availablePortMap = availablePortMap + (port -> true))
 
-  def receive = {
 
-    case DeployOrder(war) => {
-      val (port, available) = availablePortMap.filter(t => t._2).head
-      this.deploy(war, port)
-      availablePortMap = availablePortMap + (port -> false)
-    }
+
+  def deploy(war:File) {
+
+    val (port, available) = availablePortMap.filter(t => t._2).head
+    availablePortMap = availablePortMap + (port -> false)
+    this.deploy(war, port)
+
 
   }
 
-  def deploy(dest: File, i: Int): Unit = {
-    Future {
+
+
+  private def deploy(dest: File, i: Int): Unit = {
+
       var server: Server = new Server(i)
       var webapp: WebAppContext = new WebAppContext
       webapp.setContextPath("/")
@@ -78,6 +79,6 @@ class DeployActor extends Actor {
         }
       }
 
-    }
+
   }
 }

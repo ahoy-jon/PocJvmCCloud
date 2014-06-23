@@ -2,6 +2,7 @@ package com.github.unjon.controlapp;
 
 import java.io.*;
 
+import com.github.unjon.webserver.ScalaUtilsUpload;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -15,9 +16,6 @@ import com.vaadin.ui.Upload.Receiver;
 import com.vaadin.ui.Upload.StartedEvent;
 import com.vaadin.ui.Upload.SucceededEvent;
 import com.vaadin.ui.VerticalLayout;
-
-import static akka.dispatch.Futures.future;
-
 
 public class ImmediateUpload extends VerticalLayout {
 

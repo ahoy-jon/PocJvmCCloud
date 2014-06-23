@@ -5,13 +5,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Window;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Jon
- * Date: 2/5/12
- * Time: 11:40 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class Application extends com.vaadin.Application {
 
 
